@@ -20,7 +20,7 @@ public class ProjectService {
     }
 
     public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+        return projectRepository.findByActiveTrue();
     }
 
     public Project createProject(Project data) {

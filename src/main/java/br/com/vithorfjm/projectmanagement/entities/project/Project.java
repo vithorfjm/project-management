@@ -27,6 +27,7 @@ public class Project {
         this.name = name;
         this.description = description;
         this.initialDate = initialDate;
+        this.active = true;
     }
 
     public Long getId() {
@@ -55,5 +56,13 @@ public class Project {
 
     public void setInitialDate(LocalDateTime initialDate) {
         this.initialDate = initialDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

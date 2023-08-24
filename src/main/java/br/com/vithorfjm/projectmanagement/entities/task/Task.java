@@ -25,6 +25,8 @@ public class Task {
 
     private String status;
 
+    private Boolean active;
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
