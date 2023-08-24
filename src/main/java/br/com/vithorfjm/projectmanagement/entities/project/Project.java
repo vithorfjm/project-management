@@ -1,10 +1,8 @@
 package br.com.vithorfjm.projectmanagement.entities.project;
 
-import br.com.vithorfjm.projectmanagement.entities.task.Task;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity(name="project")
 public class Project {
@@ -17,6 +15,10 @@ public class Project {
     private String description;
 
     private LocalDateTime initialDate;
+
+    private String status;
+
+    private Boolean active;
 
     public Project() {
     }

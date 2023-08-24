@@ -23,6 +23,8 @@ public class Task {
 
     private LocalDateTime estimatedTerm;
 
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
