@@ -2,8 +2,8 @@ package br.com.vithorfjm.projectmanagement.entities.user;
 
 import jakarta.persistence.*;
 
-@Entity(name = "users")
-@Table
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id

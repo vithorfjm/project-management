@@ -2,9 +2,10 @@ package br.com.vithorfjm.projectmanagement.entities.project;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-@Entity(name="project")
+@Entity
+@Table(name="project")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +15,7 @@ public class Project {
 
     private String description;
 
-    private LocalDateTime initialDate;
+    private LocalDate initialDate;
 
     private String status;
 
@@ -23,7 +24,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(String name, String description, LocalDateTime initialDate) {
+    public Project(String name, String description, LocalDate initialDate) {
         this.name = name;
         this.description = description;
         this.initialDate = initialDate;
@@ -50,12 +51,20 @@ public class Project {
         this.description = description;
     }
 
-    public LocalDateTime getInitialDate() {
+    public LocalDate getInitialDate() {
         return initialDate;
     }
 
-    public void setInitialDate(LocalDateTime initialDate) {
+    public void setInitialDate(LocalDate initialDate) {
         this.initialDate = initialDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Boolean getActive() {

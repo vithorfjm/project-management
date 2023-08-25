@@ -3,12 +3,11 @@ package br.com.vithorfjm.projectmanagement.entities.task;
 import br.com.vithorfjm.projectmanagement.entities.project.Project;
 import br.com.vithorfjm.projectmanagement.entities.user.User;
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-@Entity(name="task")
-@Table
+@Entity
+@Table(name="task")
 public class Task {
 
     @Id
@@ -19,9 +18,9 @@ public class Task {
 
     private String description;
 
-    private LocalDateTime initialDate;
+    private LocalDate initialDate;
 
-    private LocalDateTime estimatedTerm;
+    private LocalDate estimatedTerm;
 
     private String status;
 
@@ -38,7 +37,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, LocalDateTime initialDate, LocalDateTime estimatedTerm) {
+    public Task(String title, String description, LocalDate initialDate, LocalDate estimatedTerm) {
         this.title = title;
         this.description = description;
         this.initialDate = initialDate;
@@ -65,19 +64,19 @@ public class Task {
         this.description = description;
     }
 
-    public LocalDateTime getInitialDate() {
+    public LocalDate getInitialDate() {
         return initialDate;
     }
 
-    public void setInitialDate(LocalDateTime initialDate) {
+    public void setInitialDate(LocalDate initialDate) {
         this.initialDate = initialDate;
     }
 
-    public LocalDateTime getEstimatedTerm() {
+    public LocalDate getEstimatedTerm() {
         return estimatedTerm;
     }
 
-    public void setEstimatedTerm(LocalDateTime estimatedTerm) {
+    public void setEstimatedTerm(LocalDate estimatedTerm) {
         this.estimatedTerm = estimatedTerm;
     }
 }
