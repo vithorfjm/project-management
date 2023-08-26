@@ -1,8 +1,10 @@
 package br.com.vithorfjm.projectmanagement.entities.project;
 
+import br.com.vithorfjm.projectmanagement.entities.task.Task;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="project")
@@ -20,6 +22,9 @@ public class Project {
     private String status;
 
     private Boolean active;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
 
     public Project() {
     }
@@ -73,5 +78,13 @@ public class Project {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

@@ -2,6 +2,7 @@ package br.com.vithorfjm.projectmanagement.entities.task;
 
 import br.com.vithorfjm.projectmanagement.entities.project.Project;
 import br.com.vithorfjm.projectmanagement.entities.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,7 +27,8 @@ public class Task {
 
     private Boolean active;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id")
     private Project project;
 
@@ -78,5 +80,37 @@ public class Task {
 
     public void setEstimatedTerm(LocalDate estimatedTerm) {
         this.estimatedTerm = estimatedTerm;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -2,6 +2,7 @@ package br.com.vithorfjm.projectmanagement.services;
 
 import br.com.vithorfjm.projectmanagement.entities.project.Project;
 import br.com.vithorfjm.projectmanagement.entities.project.ProjectDTO;
+import br.com.vithorfjm.projectmanagement.entities.task.Task;
 import br.com.vithorfjm.projectmanagement.repositories.ProjectRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 public class ProjectService {
 
     @Autowired
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     public Project getProjectById(Long id) {
         return projectRepository.findActiveProjectById(id).orElseThrow(() -> new RuntimeException());
