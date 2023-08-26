@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -18,11 +19,25 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     public Project getProjectById(Long id) {
-        return projectRepository.findActiveProjectById(id).orElseThrow(() -> new RuntimeException());
+        Project project = projectRepository.findActiveProjectById(id).orElseThrow(() -> new RuntimeException());
+        List<Task> activeTasks = project.getTasks().stream()
+                .filter(task -> task.isActive())
+                .collect(Collectors.toList());
+        project.setTasks(activeTasks);
+        return project;
     }
 
     public List<Project> getAllProjects() {
-        return projectRepository.findByActiveTrue();
+        List<Project> projectsActiveTrue = projectRepository.findByActiveTrue();
+
+        projectsActiveTrue.forEach(project -> {
+            List<Task> activeTasks = project.getTasks().stream()
+                    .filter(task -> task.isActive())
+                    .collect(Collectors.toList());
+            project.setTasks(activeTasks);
+        });
+
+        return projectsActiveTrue;
     }
 
     public Project createProject(ProjectDTO data) {

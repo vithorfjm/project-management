@@ -72,7 +72,7 @@ public class Project {
         this.status = status;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 
