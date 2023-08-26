@@ -62,6 +62,8 @@ public class ProjectService {
     @Transactional
     public void deleteProject(Long id) {
         Project project = projectRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        List<Task> projectTasks = project.getTasks();
+        projectTasks.forEach(task -> task.setActive(false)); // set all tasks in project to inactive.
         project.setActive(false);
     }
 }
