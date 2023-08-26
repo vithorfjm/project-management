@@ -2,6 +2,7 @@ package br.com.vithorfjm.projectmanagement.services;
 
 import br.com.vithorfjm.projectmanagement.entities.project.Project;
 import br.com.vithorfjm.projectmanagement.entities.project.ProjectDTO;
+import br.com.vithorfjm.projectmanagement.entities.task.Task;
 import br.com.vithorfjm.projectmanagement.repositories.ProjectRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +10,34 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
 
     @Autowired
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     public Project getProjectById(Long id) {
-        return projectRepository.findActiveProjectById(id).orElseThrow(() -> new RuntimeException());
+        Project project = projectRepository.findActiveProjectById(id).orElseThrow(() -> new RuntimeException());
+        List<Task> activeTasks = project.getTasks().stream()
+                .filter(task -> task.isActive())
+                .collect(Collectors.toList());
+        project.setTasks(activeTasks);
+        return project;
     }
 
     public List<Project> getAllProjects() {
-        return projectRepository.findByActiveTrue();
+        List<Project> projectsActiveTrue = projectRepository.findByActiveTrue();
+
+        projectsActiveTrue.forEach(project -> {
+            List<Task> activeTasks = project.getTasks().stream()
+                    .filter(task -> task.isActive())
+                    .collect(Collectors.toList());
+            project.setTasks(activeTasks);
+        });
+
+        return projectsActiveTrue;
     }
 
     public Project createProject(ProjectDTO data) {
@@ -46,6 +62,8 @@ public class ProjectService {
     @Transactional
     public void deleteProject(Long id) {
         Project project = projectRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        List<Task> projectTasks = project.getTasks();
+        projectTasks.forEach(task -> task.setActive(false)); // set all tasks in project to inactive.
         project.setActive(false);
     }
 }
