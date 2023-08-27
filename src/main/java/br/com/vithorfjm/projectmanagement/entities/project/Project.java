@@ -23,7 +23,7 @@ public class Project {
 
     private Boolean active;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "project")
     private List<Task> tasks;
 
     public Project() {
