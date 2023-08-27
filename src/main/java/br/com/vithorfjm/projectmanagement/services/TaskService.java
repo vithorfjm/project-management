@@ -4,7 +4,6 @@ import br.com.vithorfjm.projectmanagement.entities.project.Project;
 import br.com.vithorfjm.projectmanagement.entities.task.Task;
 import br.com.vithorfjm.projectmanagement.entities.task.TaskDTO;
 import br.com.vithorfjm.projectmanagement.repositories.TaskRepository;
-import br.com.vithorfjm.projectmanagement.utils.DateUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,7 @@ public class TaskService {
         newTask.setTitle(data.title());
         newTask.setDescription(data.description());
         newTask.setInitialDate(LocalDate.now());
-        LocalDate formattedEstimatedTerm = DateUtils.convertStringToLocalDate(data.estimatedTerm());
-        newTask.setEstimatedTerm(formattedEstimatedTerm);
+        newTask.setEstimatedTerm(LocalDate.parse(data.estimatedTerm()));
         newTask.setStatus(data.status());
         newTask.setActive(true);
         newTask.setProject(project);
@@ -49,8 +47,7 @@ public class TaskService {
 
         task.setTitle(data.title());
         task.setDescription(data.description());
-        LocalDate formattedEstimatedTerm = DateUtils.convertStringToLocalDate(data.estimatedTerm());
-        task.setEstimatedTerm(formattedEstimatedTerm);
+        task.setEstimatedTerm(LocalDate.parse(data.estimatedTerm()));
         task.setStatus(data.status());
     }
 
