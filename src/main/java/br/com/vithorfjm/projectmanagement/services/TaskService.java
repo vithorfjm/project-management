@@ -3,6 +3,7 @@ package br.com.vithorfjm.projectmanagement.services;
 import br.com.vithorfjm.projectmanagement.entities.project.Project;
 import br.com.vithorfjm.projectmanagement.entities.task.Task;
 import br.com.vithorfjm.projectmanagement.entities.task.TaskDTO;
+import br.com.vithorfjm.projectmanagement.exceptions.EntityNotFoundException;
 import br.com.vithorfjm.projectmanagement.repositories.TaskRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,9 @@ public class TaskService {
 
     @Transactional
     public void updateTask(Long projectId, TaskDTO data) {
-        Task task = this.taskRepository.findActiveTaskById(data.id()).orElseThrow(() -> new RuntimeException());
+        Task task = this.taskRepository.findActiveTaskById(data.id()).orElseThrow(() -> new EntityNotFoundException("Task not found - " + data.id()));
         if (!(task.getProject().getId().equals(projectId))) {
-            throw new RuntimeException();
+            throw new EntityNotFoundException("Task " + data.id() + " not found at project " + projectId);
         }
 
         task.setTitle(data.title());
@@ -53,9 +54,9 @@ public class TaskService {
 
     @Transactional
     public void deleteTask(Long projectId, Long id) {
-        Task task = this.taskRepository.findActiveTaskById(id).orElseThrow(() -> new RuntimeException());
+        Task task = this.taskRepository.findActiveTaskById(id).orElseThrow(() -> new EntityNotFoundException("Task not found - " + id));
         if (!(task.getProject().getId().equals(projectId))) {
-            throw new RuntimeException();
+            throw new EntityNotFoundException("Task " + id + " not found at project " + projectId);
         }
         task.setActive(false);
     }

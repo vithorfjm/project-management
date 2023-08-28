@@ -3,6 +3,7 @@ package br.com.vithorfjm.projectmanagement.services;
 import br.com.vithorfjm.projectmanagement.entities.project.Project;
 import br.com.vithorfjm.projectmanagement.entities.project.ProjectDTO;
 import br.com.vithorfjm.projectmanagement.entities.task.Task;
+import br.com.vithorfjm.projectmanagement.exceptions.EntityNotFoundException;
 import br.com.vithorfjm.projectmanagement.repositories.ProjectRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     public Project getProjectById(Long id) {
-        Project project = projectRepository.findActiveProjectById(id).orElseThrow(() -> new RuntimeException());
+        Project project = projectRepository.findActiveProjectById(id).orElseThrow(() -> new EntityNotFoundException("Project not found - " + id));
         List<Task> activeTasks = project.getTasks().stream()
                 .filter(task -> task.isActive())
                 .collect(Collectors.toList());
@@ -53,7 +54,7 @@ public class ProjectService {
 
     @Transactional
     public void updateProject(ProjectDTO data) {
-        Project project = projectRepository.findById(data.id()).orElseThrow(() -> new RuntimeException());
+        Project project = projectRepository.findActiveProjectById(data.id()).orElseThrow(() -> new EntityNotFoundException("Project not found - " + data.id()));
         project.setName(data.name());
         project.setDescription(data.description());
         project.setStatus(data.status());
@@ -61,7 +62,7 @@ public class ProjectService {
 
     @Transactional
     public void deleteProject(Long id) {
-        Project project = projectRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Project project = projectRepository.findActiveProjectById(id).orElseThrow(() -> new EntityNotFoundException("Project not found - " + id));
         List<Task> projectTasks = project.getTasks();
         projectTasks.forEach(task -> task.setActive(false)); // set all tasks in project to inactive.
         project.setActive(false);
