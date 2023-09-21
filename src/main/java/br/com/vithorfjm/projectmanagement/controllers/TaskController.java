@@ -15,13 +15,17 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@PathVariable Long projectId, @RequestBody TaskDTO data) {
+    public ResponseEntity<Task> createTask(
+            @PathVariable Long projectId,
+            @RequestBody TaskDTO data) {
         Task newTask = this.taskService.createTask(projectId, data);
         return ResponseEntity.ok(newTask);
     }
 
     @PutMapping
-    public ResponseEntity<Task> updateTask(@PathVariable Long projectId, @RequestBody TaskDTO data) {
+    public ResponseEntity<Task> updateTask(
+            @PathVariable Long projectId,
+            @RequestBody TaskDTO data) {
         this.taskService.updateTask(projectId, data);
         return ResponseEntity.noContent().build();
     }
